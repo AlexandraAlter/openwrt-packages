@@ -37,19 +37,19 @@ define Package/rmlint/description
 endef
 
 SCONS_VARS = \
-        CFLAGS="$(TARGET_CFLAGS) $(EXTRA_CFLAGS) -L$(STAGING_DIR)/usr/lib" \
-        LINKFLAGS="$(TARGET_LDFLAGS)"
+	CFLAGS="$(TARGET_CFLAGS) $(EXTRA_CFLAGS) -L$(STAGING_DIR)/usr/lib" \
+	LINKFLAGS="$(TARGET_LDFLAGS)"
 
 SCONS_OPTIONS += \
-        implicit_link=no
-        chrpath=no
-        manbuild=no
-        sysroot="$(TOOLCHAIN_DIR)" \
-        target="$(TARGET_CROSS:-=)"
+	implicit_link=no
+	chrpath=no
+	manbuild=no
+	sysroot="$(TOOLCHAIN_DIR)" \
+	target="$(TARGET_CROSS:-=)"
 
 define Package/rmlint/install
-        $(INSTALL_DIR) $(1)/usr/bin
-        $(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/rmlint $(1)/usr/bin/
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/rmlint $(1)/usr/bin/
 endef
 
 $(eval $(call BuildPackage,rmlint))
