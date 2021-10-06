@@ -1,0 +1,9 @@
+--- a/SConstruct  2021-10-06 17:12:34.824790380 +0100
++++ b/SConstruct  2021-10-06 17:12:46.721564351 +0100
+@@ -538,7 +538,6 @@
+     PREFIX=GetOption('prefix'),
+     ENV = dict([ (key, os.environ[key])
+                  for key in os.environ
+-                 if key in ['PATH', 'TERM', 'HOME', 'PKG_CONFIG_PATH']
+               ])
+ )

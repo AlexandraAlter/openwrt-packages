@@ -1,0 +1,16 @@
+# RMLint configuration
+menu "Configuration"
+	depends on PACKAGE_rmlint
+
+	config LIBELF
+		bool "Use libelf1 for non-stripped binary detection"
+		default y
+
+	config LIBBLKID
+		bool "Use libblkid for detecting mountpoints"
+		default y
+
+	config LIBJSON
+		bool "Use libjson-glib to parse rmlint's own JSON as a caching layer"
+		default y
+endmenu

@@ -17,8 +17,6 @@ PKG_MAINTAINER:=Alexandra Alter <alexandra.alter@protonmail.com>
 PKG_LICENSE:=GPL-2.0-or-later
 PKG_LICENSE_FILES:=COPYING
 
-PKG_INSTALL:=1
-PKG_BUILD_PARALLEL:=1
 PKG_BUILD_DEPENDS:=scons/host
 
 include $(INCLUDE_DIR)/package.mk
@@ -29,27 +27,30 @@ define Package/rmlint
   CATEGORY:=Utilities
   TITLE:= rmlint
   URL:=https://github.com/sahib/rmlint
-  DEPENDS+= +glib2
+  DEPENDS+= +glib2 +LIBELF:libelf1 +LIBBLKID:libblkid +LIBJSON:json-glib
+  MENU:=1
 endef
 
 define Package/rmlint/description
   Extremely fast tool to remove duplicates and other lint from your filesystem
 endef
 
-SCONS_VARS = \
-	CFLAGS="$(TARGET_CFLAGS) $(EXTRA_CFLAGS) -L$(STAGING_DIR)/usr/lib" \
-	LINKFLAGS="$(TARGET_LDFLAGS)"
+define Package/rmlint/config
+  source "$(SOURCE)/Config.in"
+endef
+
+SCONS_VARS +=
 
 SCONS_OPTIONS += \
-	implicit_link=no
-	chrpath=no
-	manbuild=no
-	sysroot="$(TOOLCHAIN_DIR)" \
-	target="$(TARGET_CROSS:-=)"
+	--prefix=$(PKG_INSTALL_DIR) \
+	--actual-prefix=$(PKG_INSTALL_DIR) \
+	--without-gettext \
+	--without-fiemap \
+	--without-gui
 
 define Package/rmlint/install
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/rmlint $(1)/usr/bin/
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/bin/rmlint $(1)/usr/bin/
 endef
 
 $(eval $(call BuildPackage,rmlint))
