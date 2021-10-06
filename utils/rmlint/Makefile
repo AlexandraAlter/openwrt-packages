@@ -27,7 +27,7 @@ define Package/rmlint
   CATEGORY:=Utilities
   TITLE:= rmlint
   URL:=https://github.com/sahib/rmlint
-  DEPENDS+= +glib2 +LIBELF:libelf1 +LIBBLKID:libblkid +LIBJSON:json-glib
+  DEPENDS+= +glib2 +LIBELF:libelf +LIBBLKID:libblkid +LIBJSON:json-glib
   MENU:=1
 endef
 
@@ -43,9 +43,6 @@ SCONS_VARS +=
 
 SCONS_OPTIONS += \
 	--prefix=$(PKG_INSTALL_DIR) \
-	--actual-prefix=$(PKG_INSTALL_DIR) \
-	--without-gettext \
-	--without-fiemap \
 	--without-gui
 
 define Package/rmlint/install
