@@ -10,7 +10,12 @@ TEMP_CONFIG=/tmp/tvheadend
 PERSISTENT_CONFIG=/etc/tvheadend
 
 execute_first_run() {
-	"$PROG" -c "$1" -B -C -A >/dev/null 2>&1
+	# This should create a new configuration including an admin account with no name and no password,
+	# but it aborts (-A) too early without saving it:
+	# "$PROG" -c "$1" -B -C -A >/dev/null 2>&1
+	# Instead, run it for 10s, then kill it:
+	"$PROG" -c "$1" -B -C & TVH_PID=$! ; sleep 10 ; kill $TVH_PID ; sleep 2
+	# Remove this and go back to initial command if it's working again in newer tvheadend versions.
 }
 
 ensure_config_exists() {
@@ -48,6 +53,7 @@ load_uci_config() {
 	config_get_bool ipv6 server ipv6 0
 	[ "$ipv6" -eq 1 ] && procd_append_param command --ipv6
 	config_get bindaddr server bindaddr
+	[ -z "$bindaddr" ] && bindaddr=$(uci get network.lan.ipaddr)
 	[ -n "$bindaddr" ] && procd_append_param command --bindaddr "$bindaddr"
 	config_get http_port server http_port
 	[ -n "$http_port" ] && procd_append_param command --http_port "$http_port"

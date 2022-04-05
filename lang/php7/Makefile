@@ -6,8 +6,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=php
-PKG_VERSION:=7.4.23
-PKG_RELEASE:=2
+PKG_VERSION:=7.4.28
+PKG_RELEASE:=1
 
 PKG_MAINTAINER:=Michael Heimpold <mhei@heimpold.de>
 PKG_LICENSE:=PHP-3.01
@@ -16,7 +16,7 @@ PKG_CPE_ID:=cpe:/a:php:php
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=http://www.php.net/distributions/
-PKG_HASH:=cea52313fcffe56343bcd3c66dbb23cd5507dc559cc2e3547cf8f5452e88a05d
+PKG_HASH:=9cc3b6f6217b60582f78566b3814532c4b71d517876c25013ae51811e65d8fce
 
 PKG_BUILD_PARALLEL:=1
 PKG_USE_MIPS16:=0
@@ -174,6 +174,10 @@ CONFIGURE_ARGS+= \
 	--without-valgrind \
 	--with-external-pcre \
 	--with-zlib="$(STAGING_DIR)/usr"
+
+ifeq ($(CONFIG_LIBC_USE_GLIBC),y)
+TARGET_LDFLAGS += -ldl
+endif
 
 ifneq ($(SDK)$(CONFIG_PACKAGE_php7-mod-bcmath),)
   CONFIGURE_ARGS+= --enable-bcmath=shared

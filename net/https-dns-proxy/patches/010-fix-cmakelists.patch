@@ -1,12 +1,8 @@
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -12,12 +12,12 @@ function(define_file_basename_for_source
-   endforeach()
- endfunction()
- 
--set(CMAKE_BUILD_TYPE "Debug")
-+#set(CMAKE_BUILD_TYPE "Debug")
- #set(CMAKE_BUILD_TYPE "Release")
+@@ -21,9 +21,9 @@ if(NOT CMAKE_BUILD_TYPE)
+   message(STATUS "Setting build type to '${CMAKE_BUILD_TYPE}' as none was specified.")
+ endif()
  
 -set(CMAKE_C_FLAGS "-Wall -Wextra --pedantic -Wno-strict-aliasing -Wno-variadic-macros")
 -set(CMAKE_C_FLAGS_DEBUG "-g -DDEBUG")
